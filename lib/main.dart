@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
-void main() {
+// Import the firebase_core plugin
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
 }
 
@@ -27,12 +34,24 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final count = FirebaseFirestore.instance.collection('test').doc('count');
+
   int _counter = 0;
 
+  @override
+  void initState() {
+    super.initState();
+    count.snapshots().listen((result) {
+      print(result.data());
+      print(result.data()["clicked"]);
+      setState(() { _counter = result.data()["clicked"]; });
+   });
+  }
+
   void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+    count.set({ "clicked": ++_counter })
+      .then((value) => print("Clicked Added"))
+      .catchError((error) => print("Failed to inicrease Clicked: $error"));
   }
 
   @override
