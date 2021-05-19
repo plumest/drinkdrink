@@ -1,19 +1,23 @@
 # drinkdrink
-
-A new Flutter project.
-
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
-
 ## Installation
-don't forget to adding GoogleService-Info.plist to /ios/Runner path
+1. Clone my project
+```bash
+git clone https://github.com/plumest/drinkdrink.git
+```
+2. Path to root directory
+```bash
+cd drinkdrink
+```
+3. Install dependencies
+```bash
+flutter pub get
+```
+4. Add ```GoogleService-Info.plist``` to ```/ios/Runner```
+
+## Running
+for VS Code
+1. Open ios simulator
+```bash
+open -a simulator
+```
+2. Invoke ```Run > Start Debugging``` or Press ```F5``` on the `lib/main.dart`
