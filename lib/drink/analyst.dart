@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -49,6 +50,8 @@ class _AnalystState extends State<Analyst> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController waterController = TextEditingController();
+
     return Container(
       decoration: BoxDecoration(color: Colors.white),
       child: Center(
@@ -65,11 +68,56 @@ class _AnalystState extends State<Analyst> {
                           ),
                       ),
               ),
-              FloatingActionButton(
-                onPressed: () => _drinkingWater(10),
-                tooltip: 'Increment',
-                child: Icon(Icons.add),
-              ), 
+              Padding(
+                padding: EdgeInsets.all(20.0),
+                child: TextFormField(
+                  controller: waterController,
+                    decoration: InputDecoration(
+                      labelText: "Drinking (mL)",
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                    ),
+                    // ignore: deprecated_member_use
+                    inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                ),
+              ),
+              SizedBox(
+                  width: 130,
+                  child: ElevatedButton(
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
+                    onPressed: () => _drinkingWater(int.parse(waterController.text)),
+                    child: Text('Drink!!'),
+                  ),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: SizedBox(
+                      width: 130,
+                      child: ElevatedButton(
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
+                        onPressed: () => _drinkingWater(125),
+                        child: Text('Drink half'),
+                      ),
+                    )
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(20.0),
+                    child: SizedBox(
+                      width: 130,
+                      child: ElevatedButton(
+                        style: ButtonStyle(backgroundColor: MaterialStateProperty.all<Color>(Colors.lightBlue)),
+                        onPressed: () => _drinkingWater(250),
+                        child: Text('One cup drink'),
+                      ),
+                    )
+                  ),
+                ]
+              )
           ],
       ),),
       );
