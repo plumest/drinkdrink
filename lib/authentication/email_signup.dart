@@ -1,3 +1,4 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -108,7 +109,8 @@ class _EmailSignUpState extends State<EmailSignUp> {
         .then((result) {
           firestoreCollection.doc(result.user.uid).set({
             "email": emailController.text,
-            "name": nameController.text
+            "name": nameController.text,
+            "${DateFormat.yMd().format(DateTime.now())}": []
           })
           .then((value) => isLoading = false)
           .then((value) => print("UID when signup: ${result.user.uid}"))

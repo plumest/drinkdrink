@@ -3,11 +3,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'authentication/login.dart';
+import 'drink/analyst.dart';
 
 class Home extends StatelessWidget {
   Home({this.uid});
   final String uid;
-  final String title = "Home";
+  final String title = "Drink Drink";
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,9 @@ class Home extends StatelessWidget {
             )
           ],
         ),
-        body: Center(child: Text('Welcome!')),
+        body: Center(
+          child: Analyst(uid: this.uid)
+        ),
         drawer: NavigateDrawer(uid: this.uid));
   }
 }
@@ -40,6 +43,7 @@ class Home extends StatelessWidget {
 class NavigateDrawer extends StatefulWidget {
   final String uid;
   NavigateDrawer({Key key, this.uid}) : super(key: key);
+
   @override
   _NavigateDrawerState createState() => _NavigateDrawerState();
 }
@@ -59,7 +63,6 @@ class _NavigateDrawerState extends State<NavigateDrawer> {
                     .get(),
                 builder: (context, AsyncSnapshot<DocumentSnapshot> documentSnapshot) {
                   if (documentSnapshot.hasData) {
-                    print(documentSnapshot.data);
                     return Text(documentSnapshot.data['email']);
                   } else {
                     return CircularProgressIndicator();
