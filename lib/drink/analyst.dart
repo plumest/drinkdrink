@@ -25,7 +25,12 @@ class _AnalystState extends State<Analyst> {
   void initState() {
     super.initState();
     // Create if not exist
-    firebaseDoc.doc(uid).set({date: []}, SetOptions(merge : true));
+    firebaseDoc.doc(uid).get()
+      .then((document) => {
+        if (!document.data()[date]) {
+          document.reference.set({date: []}, SetOptions(merge : true))
+        }
+      });
 
     // Listening Data
     WidgetsBinding.instance
