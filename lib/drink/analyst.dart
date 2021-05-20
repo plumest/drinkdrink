@@ -28,21 +28,26 @@ class _AnalystState extends State<Analyst> {
     firebaseDoc.doc(uid).set({date: []}, SetOptions(merge : true));
 
     // Listening Data
-    firebaseDoc
-      .doc(uid)
-      .snapshots()
-      .listen((result) {
-          print(result.data());
-          setState(() { 
-              _drinkList = result.data()[date];
-              _drank = result.data()[date].fold(0, (previous, current) => previous + current); 
-            });
+    WidgetsBinding.instance
+      .addPostFrameCallback((_) => {
+        if (mounted) {
+          firebaseDoc
+            .doc(uid)
+            .snapshots()
+            .listen((result) {
+                print(result.data());
+                setState(() { 
+                    _drinkList = result.data()[date];
+                    _drank = result.data()[date].fold(0, (previous, current) => previous + current); 
+                  });
+            })
+        }
       });
   }
 
-  void _drinkingWater(num water) {
+  void _drinkingWater(num water) async {
     _drinkList.add(water);
-    firebaseDoc.doc(uid).set({ date: _drinkList })
+    await firebaseDoc.doc(uid).set({ date: _drinkList }, SetOptions(merge : true))
       .then((value) => print("Water Added"))
       .catchError((error) => print("Failed to inicrease Clicked: $error"));
   }
