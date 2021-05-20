@@ -73,7 +73,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
               Padding(
                 padding: EdgeInsets.all(20.0),
                 child: TextFormField(
-                  obscureText: true,
                   controller: nameController,
                   decoration: InputDecoration(
                     labelText: "Enter username",
@@ -107,11 +106,12 @@ class _EmailSignUpState extends State<EmailSignUp> {
     firebaseAuth
         .createUserWithEmailAndPassword(email: emailController.text, password: passwordController.text)
         .then((result) {
-          firestoreCollection.add({
+          firestoreCollection.doc(result.user.uid).set({
             "email": emailController.text,
             "name": nameController.text
           })
           .then((value) => isLoading = false)
+          .then((value) => print("UID when signup: ${result.user.uid}"))
           .then((value) => {
             Navigator.pushReplacement(
               context,
@@ -145,5 +145,6 @@ class _EmailSignUpState extends State<EmailSignUp> {
     super.dispose();
     emailController.dispose();
     passwordController.dispose();
+    nameController.dispose();
   }
 }
